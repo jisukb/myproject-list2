@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Response {
+  // 서버의 응답 데이터
   private List<String> dataList = new ArrayList<>();
 
   public List<String> getDataList() {

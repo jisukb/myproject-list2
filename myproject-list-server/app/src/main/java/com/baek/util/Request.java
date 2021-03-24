@@ -3,6 +3,7 @@ package com.baek.util;
 import java.util.List;
 
 public class Request {
+  // 클라이언트의 요청 정보
   private String command;
   private List<String> data;
 

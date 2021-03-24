@@ -1,8 +1,6 @@
 package com.baek.proj.domain;
 
-import com.baek.util.CsvObject;
-
-public class Store implements CsvObject {
+public class Store {
   private int no;
   private String name;
   private String address;
@@ -28,7 +26,6 @@ public class Store implements CsvObject {
         + ", time=" + time + ", manager=" + manager + "]";
   }
 
-  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%s",
         this.getNo(),

@@ -1,8 +1,6 @@
 package com.baek.proj.domain;
 
-import com.baek.util.CsvObject;
-
-public class Product implements CsvObject {
+public class Product {
   private int no;
   private int category;
   private String name;
@@ -28,7 +26,6 @@ public class Product implements CsvObject {
         + ", stock=" + stock + ", info=" + info + "]";
   }
 
-  @Override
   public String toCsvString() {
     return String.format("%d,%d,%s,%d,%d,%s",
         this.getNo(),

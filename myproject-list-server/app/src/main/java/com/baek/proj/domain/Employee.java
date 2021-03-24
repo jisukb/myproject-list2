@@ -1,9 +1,8 @@
 package com.baek.proj.domain;
 
 import java.sql.Date;
-import com.baek.util.CsvObject;
 
-public class Employee implements CsvObject {
+public class Employee {
   private int no;
   private String name;
   private String dept;
@@ -29,7 +28,6 @@ public class Employee implements CsvObject {
         + ", phone=" + phone + ", joinDate=" + joinDate + "]";
   }
 
-  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%s",
         this.getNo(),
@@ -40,7 +38,8 @@ public class Employee implements CsvObject {
         this.getJoinDate());
   }
 
-  // factory method pattern
+  // factory method pattern 
+  // 인스턴스 생성을 대신 해주는 메서드를 만들어 그로 객체를 생성하는 프로그래밍 방식
   public static Employee valueOfCsv(String csv) {
     String[] fields = csv.split(","); // 번호,이름,부서,이메일,전화,입사일
     Employee e = new Employee();

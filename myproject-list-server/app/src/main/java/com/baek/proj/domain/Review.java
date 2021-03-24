@@ -1,9 +1,8 @@
 package com.baek.proj.domain;
 
 import java.sql.Date;
-import com.baek.util.CsvObject;
 
-public class Review implements CsvObject {
+public class Review {
   private int no;
   private String title;
   private String content;
@@ -32,7 +31,6 @@ public class Review implements CsvObject {
         + "]";
   }
 
-  @Override
   public String toCsvString() {
     return String.format("%d,%s,%s,%s,%s,%s,%d",
         this.getNo(),

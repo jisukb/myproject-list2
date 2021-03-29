@@ -2,42 +2,45 @@ package com.baek.proj.table;
 
 import java.io.File;
 import java.util.List;
-import com.baek.proj.domain.Employee;
+import com.baek.proj.domain.Product;
 import com.baek.util.JsonFileHandler;
 import com.baek.util.Request;
 import com.baek.util.Response;
 
-public class EmployeeTable implements DataTable {
+public class ProductTable implements DataTable {
 
-  File jsonFile = new File("employee.json");
-  List<Employee> list;
+  File jsonFile = new File("product.json");
+  List<Product> list;
 
-  public EmployeeTable() {
-    list = JsonFileHandler.loadObjects(jsonFile, Employee.class);
+  public ProductTable() {
+    list = JsonFileHandler.loadObjects(jsonFile, Product.class);
   }
 
   @Override
   public void service(Request request, Response response) throws Exception {
-    Employee employee = null;
+    Product product = null;
     String[] fields = null;
 
     switch (request.getCommand()) {
-      case "employee/insert":
+      case "product/insert":
 
         break;
-      case "employee/selectall":
+      case "product/selectall":
 
         break;
-      case "employee/select":
+      case "product/select":
 
         break;
-      case "employee/selectByName":
+      case "product/selectByName":
 
         break;
-      case "employee/update":
+      case "product/selectByKeyword":
 
         break;
-      case "employee/delete":
+      case "product/update":
+
+        break;
+      case "product/delete":
 
         break;
       default:

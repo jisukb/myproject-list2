@@ -10,87 +10,11 @@ public class Employee {
   private String phone;
   private Date joinDate;
 
-  public Employee() {}
-
-  public Employee(String csv) {
-    String[] fields = csv.split(","); // 번호,이름,부서,이메일,전화,입사일
-    this.setNo(Integer.parseInt(fields[0]));
-    this.setName(fields[1]);
-    this.setDept(fields[2]);
-    this.setEmail(fields[3]);
-    this.setPhone(fields[4]);
-    this.setJoinDate(Date.valueOf(fields[5]));
-  }
-
   @Override
   public String toString() {
     return "Employee [no=" + no + ", name=" + name + ", dept=" + dept + ", email=" + email
         + ", phone=" + phone + ", joinDate=" + joinDate + "]";
   }
-
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%s",
-        this.getNo(),
-        this.getName(),
-        this.getDept(),
-        this.getEmail(),
-        this.getPhone(),
-        this.getJoinDate());
-  }
-
-  // factory method pattern 
-  // 인스턴스 생성을 대신 해주는 메서드를 만들어 그로 객체를 생성하는 프로그래밍 방식
-  public static Employee valueOfCsv(String csv) {
-    String[] fields = csv.split(","); // 번호,이름,부서,이메일,전화,입사일
-    Employee e = new Employee();
-    e.setNo(Integer.parseInt(fields[0]));
-    e.setName(fields[1]);
-    e.setDept(fields[2]);
-    e.setEmail(fields[3]);
-    e.setPhone(fields[4]);
-    e.setJoinDate(Date.valueOf(fields[5]));
-    return e;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((email == null) ? 0 : email.hashCode());
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + no;
-    result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-    return result;
-  }
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Employee other = (Employee) obj;
-    if (email == null) {
-      if (other.email != null)
-        return false;
-    } else if (!email.equals(other.email))
-      return false;
-    if (name == null) {
-      if (other.name != null)
-        return false;
-    } else if (!name.equals(other.name))
-      return false;
-    if (no != other.no)
-      return false;
-    if (phone == null) {
-      if (other.phone != null)
-        return false;
-    } else if (!phone.equals(other.phone))
-      return false;
-    return true;
-  }
-
   public int getNo() {
     return no;
   }
@@ -128,4 +52,10 @@ public class Employee {
     this.joinDate = joinDate;
   }
 
+  public String phoneFormat(String phone) {
+    if(phone.length() == 11) {  
+      return phone.replaceFirst("(^010)([0-9]{4})([0-9]{4})$", "$1-$2-$3");
+    }
+    return phone; 
+  }
 }

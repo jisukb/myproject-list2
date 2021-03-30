@@ -8,73 +8,11 @@ public class Product {
   private int stock;
   private String info;
 
-  public Product() {}
-
-  public Product(String csv) {
-    String[] fields = csv.split(","); // 번호,카테고리,상품명,가격,상태,설명
-    this.setNo(Integer.parseInt(fields[0]));
-    this.setCategory(Integer.parseInt(fields[1]));
-    this.setName(fields[2]);
-    this.setPrice(Integer.parseInt(fields[3]));
-    this.setStock(Integer.parseInt(fields[4]));
-    this.setInfo(fields[5]);
-  }
-
   @Override
   public String toString() {
     return "Product [no=" + no + ", category=" + category + ", name=" + name + ", price=" + price
         + ", stock=" + stock + ", info=" + info + "]";
   }
-
-  public String toCsvString() {
-    return String.format("%d,%d,%s,%d,%d,%s",
-        this.getNo(),
-        this.getCategory(),
-        this.getName(),
-        this.getPrice(),
-        this.getStock(),
-        this.getInfo());
-  }
-
-  public static Product valueOfCsv(String csv) {
-    String[] fields = csv.split(","); // 번호,카테고리,상품명,가격,상태,설명
-    Product p = new Product();
-    p.setNo(Integer.parseInt(fields[0]));
-    p.setCategory(Integer.parseInt(fields[1]));
-    p.setName(fields[2]);
-    p.setPrice(Integer.parseInt(fields[3]));
-    p.setStock(Integer.parseInt(fields[4]));
-    p.setInfo(fields[5]);
-    return p;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((info == null) ? 0 : info.hashCode());
-    result = prime * result + no;
-    return result;
-  }
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Product other = (Product) obj;
-    if (info == null) {
-      if (other.info != null)
-        return false;
-    } else if (!info.equals(other.info))
-      return false;
-    if (no != other.no)
-      return false;
-    return true;
-  }
-
   public int getNo() {
     return no;
   }
@@ -112,4 +50,25 @@ public class Product {
     this.info = info;
   }
 
+  public String getChoiceCate(int category) {
+    switch (category) {
+      case 1:
+        return "굿즈";
+      case 2:
+        return "음반";
+      default:
+        return "서적";
+    }
+  }
+
+  public String getState(int stock) {
+    switch (stock) {
+      case 1:
+        return "판매 중입니다.";
+      case 2:
+        return "품절입니다.";
+      default:
+        return "예약상품입니다.";
+    }
+  }
 }

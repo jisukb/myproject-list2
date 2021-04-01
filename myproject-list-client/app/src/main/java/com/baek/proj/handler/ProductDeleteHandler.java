@@ -1,31 +1,31 @@
 package com.baek.proj.handler;
 
-import java.util.List;
-import com.baek.proj.domain.Product;
+import com.baek.driver.Statement;
 import com.baek.util.Prompt;
 
-public class ProductDeleteHandler extends AbstractProductHandler {
+public class ProductDeleteHandler implements Command {
 
-  public ProductDeleteHandler(List<Product> productList) {
-    super(productList);
+  Statement stmt;
+
+  public ProductDeleteHandler(Statement stmt) {
+    this.stmt = stmt;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     System.out.println("[상품 삭제]");
 
     int no = Prompt.inputInt("번호> ");
-    Product product = findByNo(no);
-    if (product == null) {
-      System.out.println("해당 번호의 상품이 없습니다.");
+
+    stmt.executeQuery("product/select", Integer.toString(no));
+
+    String input = Prompt.inputString("삭제하시겠습니까?(Y/N) ");
+    if (!input.equalsIgnoreCase("Y")) {
+      System.out.println("삭제를 취소하였습니다.");
       return;
     }
-    String input = Prompt.inputString("삭제하시겠습니까?(Y/N) ");
-    if (input.equalsIgnoreCase("Y")) {
-      productList.remove(product);
-      System.out.println("상품 정보를 삭제하였습니다.");
-    } else {
-      System.out.println("삭제를 취소하였습니다.");
-    }
+
+    stmt.executeUpdate("product/delete", Integer.toString(no));
+    System.out.println("상품 정보를 삭제하였습니다.");
   }
 }

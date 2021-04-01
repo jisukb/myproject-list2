@@ -20,7 +20,7 @@ public class StoreUpdateHandler implements Command {
 
     int no = Prompt.inputInt("번호> ");
 
-    String[] fields = stmt.executeQuery("employee/select", Integer.toString(no)).next().split(",");
+    String[] fields = stmt.executeQuery("store/select", Integer.toString(no)).next().split(",");
 
     String name = Prompt.inputString(String.format("지점명(%s)> ", fields[1]));
     String address = Prompt.inputString(String.format("주소(%s)> ", fields[2]));

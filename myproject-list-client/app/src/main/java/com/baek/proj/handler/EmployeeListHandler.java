@@ -21,12 +21,13 @@ public class EmployeeListHandler implements Command {
     while (results.hasNext()) {
       String[] fields = results.next().split(",");
       // 번호, 이름, 부서, 이메일, 전화번호, 입사일
-      System.out.printf("%s (%s부) %s, %s, %s 입사\n", 
+      System.out.printf("%s. %s (%s부) %s, %s, %s 입사\n", 
           fields[0],
           fields[1],
           fields[2],
-          Employee.phoneFormat(fields[3]),
-          fields[4]);
+          fields[3],
+          Employee.phoneFormat(fields[4]),
+          fields[5]);
     }
   }
 }

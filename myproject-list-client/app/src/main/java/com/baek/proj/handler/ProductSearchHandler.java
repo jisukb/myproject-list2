@@ -1,18 +1,20 @@
 package com.baek.proj.handler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import com.baek.driver.Statement;
 import com.baek.proj.domain.Product;
 import com.baek.util.Prompt;
 
-public class ProductSearchHandler extends AbstractProductHandler {
+public class ProductSearchHandler implements Command {
 
-  public ProductSearchHandler(List<Product> productList) {
-    super(productList);
+  Statement stmt;
+
+  public ProductSearchHandler(Statement stmt) {
+    this.stmt = stmt;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     String keyword = Prompt.inputString("검색어> ");
 
     if (keyword.length() == 0) {
@@ -20,24 +22,21 @@ public class ProductSearchHandler extends AbstractProductHandler {
       return;
     }
 
-    ArrayList<Product> list = new ArrayList<>();
+    Iterator<String> results = stmt.executeQuery("product/selectByKeyword", keyword);
 
-    Product[] products = productList.toArray(new Product[productList.size()]);
-    for (Product p : products) {
-      if (p.getName().contains(keyword)) {
-        list.add(p);
-      }
-    }
-
-    if (list.isEmpty()) {
-      System.out.println("해당 상품이 없습니다.");
+    if (!results.hasNext()) {
+      System.out.println("검색어에 해당하는 상품이 없습니다.");
       return;
     }
 
-    for (Product p : list) {
-      System.out.printf("%d. %s> %s %,d원 %s\n",
-          p.getNo(), getChoiceCate(p.getCategory()), p.getName(), 
-          p.getPrice(), getState(p.getStock()));
+    while (results.hasNext()) {
+      String[] fields = results.next().split(",");
+      System.out.printf("%s. %s> %s %,s원 %s\n",
+          fields[1],
+          Product.getChoiceCate(Integer.parseInt(fields[1])),
+          fields[2],
+          fields[3],
+          Product.getState(Integer.parseInt(fields[4])));
     }
   }
 } 

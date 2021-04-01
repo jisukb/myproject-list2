@@ -6,9 +6,9 @@ import com.baek.util.Prompt;
 
 public class ReviewUpdateHandler extends AbstractReviewHandler {
 
-  private ProductValidatorHandler productValidatorHandler;
+  private ProductValidator productValidatorHandler;
 
-  public ReviewUpdateHandler(List<Review> reviewList, ProductValidatorHandler productValidatorHandler) {
+  public ReviewUpdateHandler(List<Review> reviewList, ProductValidator productValidatorHandler) {
     super(reviewList);
     this.productValidatorHandler = productValidatorHandler;
   }

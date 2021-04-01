@@ -21,10 +21,11 @@ public class StoreListHandler implements Command {
     while (results.hasNext()) {
       String[] fields = results.next().split(",");
       // 번호, 지점명, 주소, 전화번호
-      System.out.printf("%s점 %s TEL.%s\n", 
+      System.out.printf("%s. %s점 %s TEL.%s\n", 
           fields[0],
           fields[1],
-          Employee.phoneFormat(fields[2]));
+          fields[2],
+          Employee.phoneFormat(fields[3]));
     } 
   } 
 }

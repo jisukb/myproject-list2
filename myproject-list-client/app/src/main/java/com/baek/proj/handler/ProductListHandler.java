@@ -1,26 +1,32 @@
 package com.baek.proj.handler;
 
 import java.util.Iterator;
-import java.util.List;
+import com.baek.driver.Statement;
 import com.baek.proj.domain.Product;
 
-public class ProductListHandler extends AbstractProductHandler {
+public class ProductListHandler implements Command {
 
-  public ProductListHandler(List<Product> productList) {
-    super(productList);
+  Statement stmt;
+
+  public ProductListHandler(Statement stmt) {
+    this.stmt = stmt;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     System.out.println("[상품 목록]");
 
-    Iterator<Product> iterator = productList.iterator();
-    while (iterator.hasNext()) {
-      Product p = iterator.next();
+    Iterator<String> results = stmt.executeQuery("product/selectall");
+
+    while (results.hasNext()) {
+      String[] fields = results.next().split(",");
       // 번호, 카테고리, 상품명, 가격, 재고상태
-      System.out.printf("%d. %s> %s %,d원 %s\n",
-          p.getNo(), getChoiceCate(p.getCategory()), p.getName(), 
-          p.getPrice(), getState(p.getStock()));
+      System.out.printf("%s. %s> %s %,s원 %s\n",
+          fields[1],
+          Product.getChoiceCate(Integer.parseInt(fields[1])),
+          fields[2],
+          fields[3],
+          Product.getState(Integer.parseInt(fields[4])));
     }
   }
 } 

@@ -1,37 +1,37 @@
 package com.baek.proj.handler;
 
-import java.util.List;
-import com.baek.proj.domain.Review;
+import com.baek.driver.Statement;
 import com.baek.util.Prompt;
 
-public class ReviewUpdateHandler extends AbstractReviewHandler {
+public class ReviewUpdateHandler implements Command {
 
-  private ProductValidator productValidatorHandler;
+  Statement stmt;
+  ProductValidator productValidator;
 
-  public ReviewUpdateHandler(List<Review> reviewList, ProductValidator productValidatorHandler) {
-    super(reviewList);
-    this.productValidatorHandler = productValidatorHandler;
+  public ReviewUpdateHandler(Statement stmt, ProductValidator productValidator) {
+    this.stmt = stmt;
+    this.productValidator = productValidator;
   }
 
-  public void service() {
+  @Override
+  public void service() throws Exception {
     System.out.println("[리뷰 수정]");
 
     int no = Prompt.inputInt("번호> ");
-    Review review = findByNo(no);
-    if (review == null) {
-      System.out.println("해당 번호의 글이 없습니다.");
-      return;
-    }
-    String title = Prompt.inputString(String.format("제목(%s)> ", review.getTitle()));
-    String content = Prompt.inputString(String.format("내용(%s)> ", review.getContent()));
+
+    String[] fields = stmt.executeQuery("review/select", Integer.toString(no)).next().split(",");
+
+    String title = Prompt.inputString(String.format("제목(%s)> ", fields[1]));
+    String content = Prompt.inputString(String.format("내용(%s)> ", fields[2]));
 
     String input = Prompt.inputString("변경하시겠습니까?(Y/N) ");
-    if (input.equalsIgnoreCase("Y")) {
-      review.setTitle(title);
-      review.setContent(content);
-      System.out.println("리뷰를 변경하였습니다.");
-    } else {
+    if (!input.equalsIgnoreCase("Y")) {
       System.out.println("수정을 취소하였습니다.");
+      return;
     }
+
+    stmt.executeUpdate("review/update", String.format("%d,%s,%s", 
+        no, title, content));
+    System.out.println("리뷰를 변경하였습니다.");
   }
 }

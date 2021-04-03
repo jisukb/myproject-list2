@@ -31,8 +31,8 @@ public class ProductSearchHandler implements Command {
 
     while (results.hasNext()) {
       String[] fields = results.next().split(",");
-      System.out.printf("%s. %s> %s %,s원 %s\n",
-          fields[1],
+      System.out.printf("%s. %s> %s %s원 %s\n",
+          fields[0],
           Product.getChoiceCate(Integer.parseInt(fields[1])),
           fields[2],
           fields[3],

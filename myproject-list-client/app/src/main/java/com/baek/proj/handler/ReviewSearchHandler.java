@@ -1,18 +1,19 @@
 package com.baek.proj.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.baek.proj.domain.Review;
+import java.util.Iterator;
+import com.baek.driver.Statement;
 import com.baek.util.Prompt;
 
-public class ReviewSearchHandler extends AbstractReviewHandler {
+public class ReviewSearchHandler implements Command {
 
-  public ReviewSearchHandler(List<Review> reviewList) {
-    super(reviewList);
+  Statement stmt;
+
+  public ReviewSearchHandler(Statement stmt) {
+    this.stmt = stmt;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     String keyword = Prompt.inputString("검색어> ");
 
     if (keyword.length() == 0) {
@@ -20,26 +21,22 @@ public class ReviewSearchHandler extends AbstractReviewHandler {
       return;
     }
 
-    ArrayList<Review> list = new ArrayList<>();
+    Iterator<String> results = stmt.executeQuery("review/selectByKeyword", keyword);
 
-    Review[] reviews = reviewList.toArray(new Review[reviewList.size()]);
-    for (Review r : reviews) {
-      if (r.getTitle().contains(keyword) || 
-          r.getWriter().contains(keyword) ||
-          r.getContent().contains(keyword) ||
-          r.getProduct().contains(keyword)) {
-        list.add(r);
-      }
-    }
-
-    if (list.isEmpty()) {
+    if (!results.hasNext()) {
       System.out.println("해당하는 글이 없습니다.");
       return;
     }
 
-    for (Review r : list) {
-      System.out.printf("%d. %s, %s, %s, %d\n",
-          r.getNo(), r.getTitle(), r.getRegistereDate(), r.getWriter(), r.getViewCount());
+    while (results.hasNext()) {
+      String[] fields = results.next().split(",");
+      System.out.printf("%s. %s, %s, %s, %s, %s\n",
+          fields[0],
+          fields[1],
+          fields[2],
+          fields[3],
+          fields[4],
+          fields[5]);
     }
   }
 }

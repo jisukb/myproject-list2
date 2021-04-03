@@ -22,7 +22,7 @@ public class ProductDetailHandler implements Command {
 
     System.out.printf("카테고리: %s\n", Product.getChoiceCate(Integer.parseInt(fields[1])));
     System.out.printf("상품명: %s\n", fields[2]);
-    System.out.printf("가격: %,d\n", fields[3]);
+    System.out.printf("가격: %s\n", fields[3]);
     System.out.printf("재고상태: %s\n", Product.getState(Integer.parseInt(fields[4])));
     System.out.printf("설명: %s\n", fields[5]);
   }

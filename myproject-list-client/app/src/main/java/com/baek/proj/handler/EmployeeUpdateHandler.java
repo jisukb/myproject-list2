@@ -32,7 +32,7 @@ public class EmployeeUpdateHandler implements Command {
       return;
     }
 
-    stmt.executeUpdate("employee/update", String.format("%d,%s,%s,%s,%s,%s", 
+    stmt.executeUpdate("employee/update", String.format("%d,%s,%s,%s,%s", 
         no, name, dept, email, phone));
     System.out.println("사원 정보를 변경하였습니다.");
   }

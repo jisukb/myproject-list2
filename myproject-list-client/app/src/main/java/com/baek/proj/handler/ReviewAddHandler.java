@@ -1,38 +1,40 @@
 package com.baek.proj.handler;
 
-import java.sql.Date;
-import java.util.List;
+import com.baek.driver.Statement;
 import com.baek.proj.domain.Review;
 import com.baek.util.Prompt;
 
-public class ReviewAddHandler extends AbstractReviewHandler {
+public class ReviewAddHandler implements Command {
 
-  private ProductValidator productValidatorHandler;
+  Statement stmt;
+  ProductValidator productValidator;
 
-  public ReviewAddHandler(List<Review> reviewList, ProductValidator productValidatorHandler) {
-    super(reviewList);
-    this.productValidatorHandler = productValidatorHandler;
+  public ReviewAddHandler(Statement stmt, ProductValidator productValidator) {
+    this.stmt = stmt;
+    this.productValidator = productValidator;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     System.out.println("[리뷰 등록]");
 
     Review r = new Review();
 
-    r.setNo(Prompt.inputInt("번호> "));
     r.setTitle(Prompt.inputString("제목> "));
     r.setWriter(Prompt.inputString("작성자> "));
-    r.setProduct(productValidatorHandler.inputProduct("상품명> "));
+    r.setProduct(productValidator.inputProduct("상품명> "));
     if (r.getProduct() == null) {
       System.out.println("리뷰 등록을 취소하였습니다.");
       return;
     }
     r.setContent(Prompt.inputString("내용> "));
-    r.setRegistereDate(new Date(System.currentTimeMillis()));
 
-    reviewList.add(r);
+    stmt.executeUpdate("review/insert", String.format("%s,%s,%s,%s", 
+        r.getTitle(),
+        r.getWriter(),
+        r.getProduct(),
+        r.getContent()));
+
     System.out.println("리뷰를 등록하였습니다.");
-
   }
 } 

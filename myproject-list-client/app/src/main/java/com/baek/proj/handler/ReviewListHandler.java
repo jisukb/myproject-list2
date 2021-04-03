@@ -1,25 +1,32 @@
 package com.baek.proj.handler;
 
 import java.util.Iterator;
-import java.util.List;
-import com.baek.proj.domain.Review;
+import com.baek.driver.Statement;
 
-public class ReviewListHandler extends AbstractReviewHandler {
+public class ReviewListHandler implements Command {
 
-  public ReviewListHandler(List<Review> reviewList) {
-    super(reviewList);
+  Statement stmt;
+
+  public ReviewListHandler(Statement stmt) {
+    this.stmt = stmt;
   }
 
   @Override
-  public void service() {
+  public void service() throws Exception {
     System.out.println("[리뷰 목록]");
 
-    Iterator<Review> iterator = reviewList.iterator();
-    while (iterator.hasNext()) {
-      Review r = iterator.next();
+    Iterator<String> results = stmt.executeQuery("review/selectall");
+
+    while (results.hasNext()) {
+      String[] fields = results.next().split(",");
       // 번호, 제목, 작성자, 상품, 등록일, 조회수
-      System.out.printf("%d. %s, %s, %s, %s, %d\n",
-          r.getNo(), r.getTitle(), r.getWriter(), r.getProduct(), r.getRegistereDate(), r.getViewCount());
+      System.out.printf("%s. %s, %s, %s, %s, %s\n",
+          fields[0],
+          fields[1],
+          fields[2],
+          fields[3],
+          fields[4],
+          fields[5]);
     }
   }
 }
